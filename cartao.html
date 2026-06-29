@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Felipe Cardoso - Biólogo, Designer Gráfico, Desenvolvedor Python e Especialista em Telecomunicações. Soluções que conectam • Design que inspira">
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Felipe Cardoso - Digital Business Card">
+    <meta property="og:description" content="Premium digital business card. Soluções que conectam • Design que inspira">
+    <meta property="og:image" content="./webp/perfil.webp">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Felipe Cardoso - Digital Business Card">
+    <meta name="twitter:description" content="Premium digital business card. Soluções que conectam • Design que inspira">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100'/><circle cx='50' cy='50' r='40' fill='none' stroke='%23d4a017' stroke-width='2'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23d4a017' stroke-width='1' opacity='0.5'/><circle cx='50' cy='50' r='5' fill='%23d4a017'/></svg>">
+    
+    <title>Felipe Cardoso - Digital Business Card</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <style>
+        /* ========== CSS Variables ========== */
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a1a;
+            --gold: #d4a017;
+            --gold-glow: #e6b844;
+            --gold-light: #f0c860;
+            --white-accent: #f5f5f5;
+            --accent-blue: #00bfff;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== Base Styles ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--primary-dark);
+            color: var(--white-accent);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ========== Canvas Particles ========== */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ========== Background ========== */
+        .bg-premium {
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(212, 160, 23, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 191, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+        }
+
+        /* ========== Content Wrapper ========== */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== Typography ========== */
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+        }
+
+        .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 1vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 0.15em;
+        }
+
+	/* ========== Glass Effect ========== */
+	.glass-premium {
+  	background: rgba(26, 26, 26, 0.15);              /* 15% opacidade */
+    	backdrop-filter: blur(2px);                       /* Blur bem sutil */
+    	border: 1.5px solid rgba(212, 160, 23, 1);       /* Borda dourada 100% */
+    	box-shadow: 0 0 40px -20px rgba(212, 160, 23, 0.15);  /* Glow sutil */
+	}
+
+        /* ========== Glow Effects ========== */
+        .glow-gold {
+            text-shadow: 
+                0 0 20px rgba(212, 160, 23, 0.5),
+                0 0 40px rgba(212, 160, 23, 0.3);
+        }
+
+        /* ========== Avatar ========== */
+        .avatar-ring {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+        }
+
+        .avatar-ring img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            box-shadow: 
+                0 0 30px rgba(212, 160, 23, 0.5),
+                inset 0 0 20px rgba(212, 160, 23, 0.1);
+        }
+
+        .avatar-ring::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 2px solid transparent;
+            border-top-color: var(--gold);
+            border-right-color: var(--gold);
+            border-radius: 50%;
+            animation: rotateBorder 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        .avatar-ring::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+            border: 1px solid rgba(212, 160, 23, 0.2);
+            border-radius: 50%;
+            animation: rotateBorderReverse 12s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotateBorderReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* ========== Divider ========== */
+        .divider-tech {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            opacity: 0.6;
+        }
+
+        .divider-tech::before,
+        .divider-tech::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .divider-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--gold);
+        }
+
+        /* ========== Icons with Glow ========== */
+        .icon-svg {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .icon-svg img {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 0 transparent);
+            transition: filter 0.3s var(--transition-smooth);
+            animation: glowBorder 3s ease-in-out infinite;
+        }
+
+        @keyframes glowBorder {
+            0%, 100% {
+                filter: drop-shadow(0 0 4px rgba(212, 160, 23, 0.3)) 
+                        drop-shadow(0 0 8px rgba(212, 160, 23, 0.1));
+            }
+            50% {
+                filter: drop-shadow(0 0 8px rgba(212, 160, 23, 0.6)) 
+                        drop-shadow(0 0 16px rgba(212, 160, 23, 0.2));
+            }
+        }
+
+        /* ========== Buttons ========== */
+        .btn-primary {
+            position: relative;
+            width: 100%;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #0a0a0a;
+            text-transform: uppercase;
+            box-shadow: 
+                0 10px 30px rgba(212, 160, 23, 0.3),
+                0 0 30px rgba(212, 160, 23, 0.2);
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s var(--transition-smooth);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 15px 50px rgba(212, 160, 23, 0.5),
+                0 0 50px rgba(212, 160, 23, 0.3);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            background: rgba(212, 160, 23, 0.05);
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 160, 23, 0.15);
+            box-shadow: 0 0 20px rgba(212, 160, 23, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .btn-secondary img {
+            width: 28px;
+            height: 28px;
+            filter: invert(0.8) sepia(0.8) hue-rotate(30deg) saturate(1.5);
+        }
+
+        /* ========== QR Container ========== */
+        .qr-container {
+            padding: 1.5rem;
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        /* ========== Slogan ========== */
+        .slogan {
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            text-align: center;
+            margin-top: 0.75rem;
+            font-weight: 400;
+        }
+
+        /* ========== Animation ========== */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInScale 0.8s var(--transition-smooth) forwards;
+        }
+
+        /* ========== Accessibility ========== */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        /* ========== Tailwind Utilities Compiled ========== */
+        .min-h-screen { min-height: 100vh; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-6 { gap: 1.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .max-w-lg { max-width: 32rem; }
+        .w-full { width: 100%; }
+        .p-6 { padding: 1.5rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+        .text-center { text-align: center; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .font-semibold { font-weight: 600; }
+        .grid { display: grid; }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+        .opacity-60 { opacity: 0.6; }
+        .opacity-70 { opacity: 0.7; }
+        .opacity-90 { opacity: 0.9; }
+        .text-white-accent { color: #f5f5f5; }
+
+        /* ========== Responsive ========== */
+        @media (min-width: 768px) {
+            .md\:p-12 { padding: 3rem; }
+            .avatar-ring {
+                width: 200px;
+                height: 200px;
+            }
+            .avatar-ring::before {
+                top: -20px;
+                left: -20px;
+                right: -20px;
+                bottom: -20px;
+            }
+            .avatar-ring::after {
+                top: -35px;
+                left: -35px;
+                right: -35px;
+                bottom: -35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glass-premium {
+                padding: 1.5rem 1rem;
+                border-radius: 16px;
+            }
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 0.5rem;
+            }
+            .slogan {
+                font-size: 0.75rem;
+            }
+            .divider-tech {
+                margin: 1.5rem 0;
+            }
+            .btn-primary {
+                padding: 0.875rem 2rem;
+                font-size: 0.9rem;
+            }
+            .btn-secondary {
+                width: 45px;
+                height: 45px;
+            }
+            .btn-secondary img {
+                width: 24px;
+                height: 24px;
+            }
+            .qr-container {
+                padding: 1rem;
+            }
+            .icon-svg {
+                width: 40px;
+                height: 40px;
+                margin: 0 auto 0.75rem;
+            }
+            .px-3 {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
+        @media print {
+            #particleCanvas {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-premium">
+    <!-- Canvas Particles -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <main class="min-h-screen flex items-center justify-center px-3 py-6">
+            <!-- Card -->
+            <section class="glass-premium rounded-2xl max-w-lg w-full p-6 md:p-12 animate-in" aria-label="Cartão de visitas digital">
+                
+                <!-- Avatar -->
+                <div class="avatar-ring mb-8" aria-label="Foto de perfil">
+                    <img src="./webp/perfil.webp" alt="Felipe Cardoso" loading="lazy">
+                </div>
+
+                <!-- Name -->
+                <h1 class="font-orbitron text-center glow-gold mb-2">FELIPE CARDOSO</h1>
+                
+                <!-- Slogan -->
+                <div class="slogan">
+                    Soluções que conectam • Design que inspira
+                </div>
+
+                <!-- Separator -->
+                <div class="divider-tech">
+                    <div class="divider-dot"></div>
+                </div>
+
+                <!-- Professions Grid (2 Columns) -->
+                <section class="grid grid-cols-2 gap-6 my-8" aria-label="Áreas de especialização">
+                    
+                    <div class="text-center">
+                        <div class="icon-svg" aria-hidden="true">
+                            <img src="./img/biologia.svg" alt="Ícone Biologia">
+                        </div>
+                        <h3 class="text-xs font-space font-semibold text-white-accent">Biólogo</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="icon-svg" aria-hidden="true">
+                            <img src="./img/design.svg" alt="Ícone Designer">
+                        </div>
+                        <h3 class="text-xs font-space font-semibold text-white-accent">Designer</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="icon-svg" aria-hidden="true">
+                            <img src="./img/python.svg" alt="Ícone Python">
+                        </div>
+                        <h3 class="text-xs font-space font-semibold text-white-accent">Jr. em Python</h3>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="icon-svg" aria-hidden="true">
+                            <img src="./img/telecom.svg" alt="Ícone Telecom">
+                        </div>
+                        <h3 class="text-xs font-space font-semibold text-white-accent">Tec. em Telecom</h3>
+                    </div>
+
+                </section>
+
+                <!-- Separator -->
+                <div class="divider-tech">
+                    <div class="divider-dot"></div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="mb-8">
+                    <button class="btn-primary" id="saveContactBtn" aria-label="Salvar contato - Download arquivo VCF">
+                        SALVAR CONTATO
+                    </button>
+                </div>
+
+                <!-- Separator -->
+                <div class="divider-tech">
+                    <div class="divider-dot"></div>
+                </div>
+
+                <!-- Social Links -->
+                <section class="mb-8" aria-label="Links de contato">
+                    <div class="flex gap-3 justify-center">
+                        
+                        <a href="https://wa.me/5544999875686" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="WhatsApp" aria-label="WhatsApp">
+                            <img src="./img/whatsapp.svg" alt="WhatsApp">
+                        </a>
+
+                        <a href="https://www.instagram.com/felipecard0so/" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="Pessoal" aria-label="Instagram">
+                            <img src="./img/instagram.svg" alt="Instagram">
+                        </a>
+
+                        <a href="https://www.instagram.com/biodesigncv/" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="BioDesign" aria-label="Instagram">
+                            <img src="./img/instagram.svg" alt="Instagram">
+                        </a>
+
+
+                        <a href="https://www.linkedin.com/in/cardosofelipe/" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="LinkedIn" aria-label="LinkedIn">
+                            <img src="./img/linkedin.svg" alt="LinkedIn">
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- Separator -->
+                <div class="divider-tech">
+                    <div class="divider-dot"></div>
+                </div>
+
+                <!-- QR Code -->
+                <section class="flex flex-col items-center" aria-label="QR Code">
+                    <p class="text-sm font-space opacity-70 mb-4">Escanear para adicionar contato</p>
+                    <div class="qr-container">
+                        <div id="qrcode"></div>
+                    </div>
+                </section>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Generate VCF
+        function generateVCF() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Felipe Cardoso
+N:Cardoso;Felipe;;;
+TEL:+55 11 9 9999-9999
+EMAIL:felipe@example.com
+URL:https://example.com
+ORG:Freelancer
+TITLE:Biólogo, Designer Gráfico, Desenvolvedor Python, Especialista em Telecomunicações
+NOTE:Soluções que conectam • Design que inspira
+REV:${new Date().toISOString()}
+END:VCARD`;
+
+            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Felipe_Cardoso.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Generate QR Code
+        function generateQRCode() {
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            
+            new QRCode(qrContainer, {
+                text: 'https://felipecardoso.com',
+                width: 200,
+                height: 200,
+                colorDark: '#0a0a0a',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        document.getElementById('saveContactBtn').addEventListener('click', generateVCF);
+        generateQRCode();
+
+        // Particles Animation
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.6 + 0.3;
+                this.color = Math.random() > 0.6 ? '#d4a017' : '#00bfff';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity += (Math.random() - 0.5) * 0.01;
+                this.opacity = Math.max(0.1, Math.min(0.6, this.opacity));
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+
+            ctx.strokeStyle = 'rgba(212, 160, 23, 0.1)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Accessibility
+        document.getElementById('saveContactBtn').addEventListener('click', () => {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.textContent = 'Contato salvo! Arquivo baixado.';
+            announcement.style.position = 'absolute';
+            announcement.style.left = '-10000px';
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => document.body.removeChild(announcement), 1000);
+        });
+    </script>
+</body>
+</html>
